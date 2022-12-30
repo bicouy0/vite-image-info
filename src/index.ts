@@ -3,6 +3,7 @@ import {createFilter, dataToEsm, FilterPattern} from '@rollup/pluginutils';
 import { type Plugin } from 'vite'
 import sharp, {type Sharp} from "sharp";
 import exifr from 'exifr'
+import toSource from "tosource";
 // import ExifReader from 'exifreader'
 
 export interface VitePluginOptions {
@@ -47,6 +48,13 @@ export default function viteImageInfo(userOptions: Partial<VitePluginOptions> = 
             delete meta['iptc']
             delete meta['tifftagPhotoshop']
 
+            /*
+            const metaId = this.emitFile({
+                type: "asset",
+                source: dataToEsm(meta)
+            })
+            console.debug(metaId)
+*/
             const exif = await exifr.parse(path)
             /*
             const rotation = await exifr.orientation(path)
@@ -60,18 +68,17 @@ export default function viteImageInfo(userOptions: Partial<VitePluginOptions> = 
             }
             */
 
-            const code = `export { default as asset } from ${JSON.stringify(path)};` +
-                dataToEsm({
-                meta: meta,
-                exif: exif,
-                dominant: stats.dominant
-            }, {
-                namedExports: true,
-                preferConst: true,
-                objectShorthand: true
-            })
+            const codes: string[] = []
 
-            return { code }
+            codes.push(`export const meta = ${toSource(meta, undefined, false)};`)
+            codes.push(`export const exif = ${toSource(exif, undefined, false)};`)
+            codes.push(`export const dominant = ${toSource(stats.dominant, undefined, false)};`)
+
+            codes.push(`import src from ${JSON.stringify(path)};`)
+
+            codes.push(`export default { meta, exif, dominant, src };`)
+
+            return { code: codes.join("\n") }
         }
     }
 }
