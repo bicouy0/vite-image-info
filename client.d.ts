@@ -1,15 +1,15 @@
 declare module '*.jpeg?info' {
     import type {Stats, Metadata} from "sharp";
-    import type {Tags} from 'exifreader';
+    export const asset: string
 
     export const dominant: Stats['dominant']
     export const meta: Metadata
-    export const exif: Partial<Tags>
+    export const exif: never
 
     type Info = {
         dominant: Stats['dominant']
         meta: Metadata
-        exif: Partial<Tags>
+        exif: never
     }
     const info: Info
     export default info
