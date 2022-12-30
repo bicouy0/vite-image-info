@@ -48,13 +48,6 @@ export default function viteImageInfo(userOptions: Partial<VitePluginOptions> = 
             delete meta['iptc']
             delete meta['tifftagPhotoshop']
 
-            /*
-            const metaId = this.emitFile({
-                type: "asset",
-                source: dataToEsm(meta)
-            })
-            console.debug(metaId)
-*/
             const exif = await exifr.parse(path)
             /*
             const rotation = await exifr.orientation(path)
