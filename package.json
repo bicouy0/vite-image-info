@@ -21,6 +21,7 @@
   ],
   "scripts": {
     "build": "unbuild",
+    "lint": "eslint . --ext .js,.ts",
     "example:dev": "vite example",
     "example:build": "vue-tsc -p example && vite build example",
     "example:preview": "vite preview example"

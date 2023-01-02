@@ -1,4 +1,4 @@
-import {createFilter, dataToEsm, FilterPattern} from '@rollup/pluginutils';
+import {createFilter, FilterPattern} from '@rollup/pluginutils';
 
 import { type Plugin } from 'vite'
 import sharp, {type Sharp} from "sharp";
@@ -13,7 +13,7 @@ export interface VitePluginOptions {
 
 const defaultOptions: VitePluginOptions = {
     include: [
-        '**/*.jp(e)?g\?info',
+        '**/*.jp?(e)g?info',
     ],
     exclude: 'public/**/*',
 }
