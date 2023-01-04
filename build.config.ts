@@ -8,9 +8,5 @@ export default defineBuildConfig({
     declaration: true,
     rollup: {
         emitCJS: true,
-    },
-    externals: [
-       "vite",
-       // "@rollup/pluginutils"
-    ]
+    }
 });
